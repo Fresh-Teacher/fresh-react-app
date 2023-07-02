@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
-import { AiOutlineDownload } from 'react-icons/ai';
-import { BsBook } from 'react-icons/bs';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const repo = "https://freshteacher.software";
@@ -57,16 +54,15 @@ function App() {
         <h2>Fresh Teacher's Technologies</h2>
         {installable && (
           <button className="install-button btn btn-primary" onClick={handleInstallClick}>
-            <span><strong>INSTALL FRESH TEACHER'S APP </strong></span> 
-            <AiOutlineDownload className="button-icon" />
+            <span><strong>INSTALL FRESH TEACHER'S APP ⬇️</strong></span> 
+           
 
           </button>
         )}
         <p><br />
           <a href={repo} className="btn btn-success App-link">
             
-            <span><b>GO TO FRESH TEACHER'S E-LIBRARY </b></span> 
-            <BsBook className="button-icon" />
+            <span><b>GO TO FRESH TEACHER'S E-LIBRARY 📚</b></span> 
           </a>
         </p>
       </header>
