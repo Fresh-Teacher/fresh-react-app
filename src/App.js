@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
+import { AiOutlineDownload } from 'react-icons/ai';
+import { BsBook } from 'react-icons/bs';
+import 'bootstrap/dist/css/bootstrap.css';
 
-const repo = "https://github.com/adueck/pwa-install-demo";
-let deferredPrompt;  
-    
+const repo = "https://freshteacher.software";
+let deferredPrompt;
+
 function App() {
   const [installable, setInstallable] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("beforeinstallprompt", (e) => {
+    const beforeInstallPromptHandler = (e) => {
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later.
       deferredPrompt = e;
-      // Update UI notify the user they can install the PWA
+      // Update UI to notify the user they can install the PWA
       setInstallable(true);
-    });
+    };
+
+    window.addEventListener("beforeinstallprompt", beforeInstallPromptHandler);
 
     window.addEventListener('appinstalled', () => {
       // Log install to analytics
       console.log('INSTALL: Success');
     });
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", beforeInstallPromptHandler);
+    };
   }, []);
 
-  const handleInstallClick = (e) => {
-      // Hide the app provided install promotion
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      // Hide the app-provided install promotion
       setInstallable(false);
       // Show the install prompt
       deferredPrompt.prompt();
@@ -35,20 +46,28 @@ function App() {
         } else {
           console.log('User dismissed the install prompt');
         }
+        deferredPrompt = null;
       });
+    }
   };
-  
+
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Install Demo</h2>
-        {installable &&
-          <button className="install-button" onClick={handleInstallClick}>
-            INSTALL ME
+        <h2>Fresh Teacher's Technologies</h2>
+        {installable && (
+          <button className="install-button btn btn-primary" onClick={handleInstallClick}>
+            <span><strong>INSTALL FRESH TEACHER'S APP </strong></span> 
+            <AiOutlineDownload className="button-icon" />
+
           </button>
-        }
-        <p>
-          <a href={repo} className="App-link">View source on GitHub</a>
+        )}
+        <p><br />
+          <a href={repo} className="btn btn-success App-link">
+            
+            <span><b>GO TO FRESH TEACHER'S E-LIBRARY </b></span> 
+            <BsBook className="button-icon" />
+          </a>
         </p>
       </header>
     </div>
